@@ -1,0 +1,106 @@
+/*DRAGAN Silvia - 311CB*/
+
+DATA DEFINITION
+
+1.Functia InitDB: 
+	Initializez baza de date copiind numele dat in campul
+DB.name al structurii si initializez lista de tabele a bazei cu NULL.
+	Apel main:  Obtin numele bazei din comanda si apelez functia
+
+2.Functia DeleteDB: 
+	Pentru elibera intreaga memorie ocupata de baza de date, incepem 
+"de la mic la mare"
+	Parcurg lista de tabele si eliberez cu ajutorul unui auxiliar
+fiecare celula de tip coloana. Apoi, pe fiecare caz (INT, FLOAT, STRING)
+eliberez celulele liniei, apoi linia in sine.
+	La final, eliberez tabela curenta.
+	Apel main: dupa apel, intrerup programul.
+
+3.Functia CreateTable
+	Aloc memorie pentru un tabel. Ii initializez campurile de linii,
+coloane si next cu NULL. Initializez numele tabelului cu cel dat.
+Citesc tipul tabelului si il copiez in campul type. Folosesc functia
+Aloc column pentru a aloca memorie pentru o coloana si apoi o
+adaug in lista de coloane.
+	Apel main: Citesc numele tabelului si folosesc functia FindTable
+pentru a gasi tabelul in baza de date. Daca nu il gasesc, afisez mesajul
+de eroare. Altfel, apelez functia si leg tablul creat in lista de tabele
+a bazei de date.
+
+4.Functia DeleteTable: 
+	Caut tabelul de eliminat dupa nume in lista de tabele. Daca nu il 
+gasesc, afisez mesajul de eroare. Altfel, sterg legaturile care el din
+lista de tabele, apoi eliberez memoria ocupata de el conform DeleteDB.
+	Apel main: citesc comanda, daca ea contine doar DELETE si numele
+unui tabel, inseamna ca sunt in cazul de a elimina un tabel. Daca nu
+gasesc tabelul in baza, afisez mesajul de eroare. Altfel, apelez
+functia, reactualizez lista de tabele.  
+
+DATA QUERY
+
+5.Functia PrintDB:
+	Printez intreg continutul DB incepand cu numele. Parcurg lista de
+tabele si le afisez pe rand astfel: 
+	-parcurg lista de coloane, afisez
+numele coloanei urmat de MAX_COLUMN_NAME_LEN - (nr de caractere ale
+numelui coloanei) spatii, urmat de un rand de MAX_COLUMN_NAME_LEN - si
+un spatiu.
+	-verific daca liniile tablului sunt de tip INT, FLOAT sau STRING,
+iar in functie de caz afisez continutul celulelor fiecarei linii
+urmata de numarul corespunzator de spatii
+	Apel main: Apelez functia
+
+6.Functia PrintTable
+	Printez continutul unui tabel la fel ca la functia PrintDB.
+	Apel main: obtin numele tablei, daca acesta nu exista in lista de 
+tabele este afisat mesajul de eroare, altfel este apelata functia.
+
+7.Functia Search:
+	Pentru a verifica daca elementul de la coloana cu numele dat ca 
+parametru indeplineste conditia, voi cauta intial coloana in lista,
+daca nu este gasita, afisez mesajul de eroare, altfel, folosesc un 
+contor pentru a determina pozitia acesteia in lista. Afisez head-ul
+tabelei, ia un functie de tipul tabelei, apelez functiile coresp:
+CompareINT, CompareFLOAT, CompareSTRING.
+	Functiile CompareINT/FLOAT/STRING verifica daca delatia data este
+</<=/==/!=/>=/>, iar pentru fiecare relatie parcurge liniile tabelului,
+apoi cauta in fiexare linie celula de la coloana de pe pozitia data.
+Daca este gasit elementul, conditia este verificata, iar in caz
+afirmativ, este afisata linia.
+	Apel main: Citesc comanda intr-o variabila, extrag cu strtok numele
+tabelului, coloanei, relatia si valoarea si apelez functia cu acestea.
+
+DATA MANIPULATION
+
+8.Functia AddLine
+	Citesc intr-o variabila valorile ce trebuie adaugate. In functie de
+tipul tabelei, parcurg lista de tabele pana la sfarsit pentru a
+determina ultimul element si alo memorie pentru o noua linie folosind
+functia Aloc_int(/float/string)Line. Daca alocarea a fost facuta cu
+succes, leg aux in lista de linii.
+	Functiile Aloc_int(/float/string)Line aloca memorie pentru o linie
+de tipul corespunzator, si seteaza campurile cells si next pe NULL.
+	Folosesc strtok pentru a extrage informatia de trebuie sa o contina
+celulele liniei. Aloc memorie pentru o celula cu functiile 
+Aloc_int(/float/string)Cell, apoi inserez celula la sfarsitul listei.
+	Apel main: citesc numele tabelei si apelez functia.
+
+9. Functia Delete
+	Procedez in aceeasi maniera ca la functia search, dar in functiile
+DeleteINT/FLOAT/STRING elimin linia din tabel si eliberez memoria in cazul in care conditia este indeplinita.
+	Apel main: daca comanda citita este "DELETE", daca dupa ce am citit
+nuemele tabelei, linia citita nu este nula, intru pe cazul de a sterge
+o linie din tabel. Obtin numele coloanei, relatia si valoarea cu strtok,
+apoi apelez functia.
+
+10.Functia ClearTable
+	Pentru a elibera liniile tabelei, parcurg lista de linii in functie
+de tipul tabelei, apoi lista de celule si eliberez intai celulele, apoi
+linia.
+	Apel main: citesc numele tabelei  si apelez functia.
+
+
+
+PUNCTAJ CHECKER LOCAL:
+85.0/85.0
+valgrind: 20.0/20.0
